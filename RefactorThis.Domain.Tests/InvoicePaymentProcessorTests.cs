@@ -6,6 +6,7 @@ using RefactorThis.Application.Services;
 using RefactorThis.Domain.IRepositories;
 using RefactorThis.Domain.Services;
 using RefactorThis.Domain.Enum;
+using Microsoft.Extensions.Logging;
 
 namespace RefactorThis.Domain.Tests
 {
@@ -15,6 +16,7 @@ namespace RefactorThis.Domain.Tests
         private IInvoiceRepository _invoiceRepository;
         private IPaymentProcessorService _paymentProcessorService;
         private InvoiceService _invoiceService;
+        private ILogger<InvoicePaymentProcessorTests> _logger;
 
         public class TaxServiceStub : ITaxService
         {
@@ -52,8 +54,13 @@ namespace RefactorThis.Domain.Tests
         {
             var taxServiceStub = new TaxServiceStub();
             var messageFormatterServiceStub = new MessageFormatterServiceStub();
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
+            var paymentProcessorLogger = loggerFactory.CreateLogger<PaymentProcessorService>();
             _invoiceRepository = new FakeInvoiceRepository();
-            _paymentProcessorService = new PaymentProcessorService(taxServiceStub, messageFormatterServiceStub);
+            _paymentProcessorService = new PaymentProcessorService(taxServiceStub, messageFormatterServiceStub, paymentProcessorLogger);
             _invoiceService = new InvoiceService(_invoiceRepository, _paymentProcessorService);
         }
 
