@@ -44,6 +44,9 @@
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IInvoiceService.cs" />
+    <Compile Include="Services\IMessageFormatterService.cs" />
+    <Compile Include="Services\IPaymentProcessorService.cs" />
+    <Compile Include="Services\ITaxService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
